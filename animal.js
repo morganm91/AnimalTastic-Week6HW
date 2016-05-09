@@ -1,7 +1,6 @@
  //when the page is loaded these buttons below need to be loaded onto the page
 
-
-  $(document).ready(function () {
+$(document).ready(function () {
 
 //inital buttons
 	 var animals = [ "puppy", "kitten", "bird", "goat", "llama", "sloth", "panda", "pig", "hedgehog", "shark" ];
@@ -37,7 +36,7 @@
 		renderButtons();
 		// We have this line so that users can hit "enter" instead of clicking on ht button and it won't move to the next page
 		return false;
-	});
+	})
 
 	renderButtons();
 
@@ -51,7 +50,40 @@
 
 //get the data from ajax
 		$.ajax({
-			url:
+			url: queryURL,
+			method: 'GET'
+		})
+//when it is finished getting the query this will respond
+		.done(function(response) {
+			var results= response.data;
+
+//for the variable it will run throug the length to get to 10
+		for (var i=0; i< results.length; i++) {
+
+		//placing the objects in the div
+		//creating a div and making it appear in the animalDiv
+			var animalDiv = $('<div>')
+
+		//paragraph tag to appear in variable named p to show the rating
+			var p = $('<p>').text("Rating: " + rating);
+		
+		//grabbing the rating from the ajax	
+			var rating = results[i].rating;
+
+		//created an image and ahving it in the animalImage variable and makig it set to a fixed height
+			var animalImage = $('<img>'); 
+			animalImage.attr('src', results[i].images.fixed_height.url);
+
+		//appended the p variable and animal image to the animalDiv	
+			animalDiv.append(p)
+			animalDiv.append(animalImage)
+
+		//append animalDiv to where the gifs will appear	
+			$('#animals').prepend(animalDiv);
+
+		}
+		});
 
 
- 	});
+//this section will make the image start and stop when clicked on
+});
