@@ -44,9 +44,9 @@ $(document).ready(function () {
 	
 //when button is clicked on it will run this function
 	$(document).on('click', function () {
-		var animal = $(this).data('name');
+		var a = $(this).data('name');
 //gif will show 10 images		
-		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + a + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 //get the data from ajax
 		$.ajax({
@@ -72,7 +72,11 @@ $(document).ready(function () {
 
 		//created an image and ahving it in the animalImage variable and makig it set to a fixed height
 			var animalImage = $('<img>'); 
-			animalImage.attr('src', results[i].images.fixed_height.url);
+			animalImage.attr('src', results[i].images.fixed_height_still.url);
+			animalImage.attr('data-still', results[i].images.fixed_height_still.url);
+			animalImage.attr('data-animate', results[i].images.fixed_height.url);
+			animalImage.attr('data-state', 'still'); 
+				animalImage.addClass('animalGif');
 
 		//appended the p variable and animal image to the animalDiv	
 			animalDiv.append(p)
@@ -82,8 +86,26 @@ $(document).ready(function () {
 			$('#animals').prepend(animalDiv);
 
 		}
-		});
+	
 
 
 //this section will make the image start and stop when clicked on
+		$('#animalButtons').on('click','.animalGif', function (){
+
+		//make a variable named state and then refrence the buttons data stat into it
+			var state = $(this).attr('data-state');
+			var animate = $(this).attr('data-animate');
+			var still = $(this).attr('data-still');
+
+		//if variable state is equal to 'still'
+				if ( state == 'still'){
+					$(this).attr('src', animate);
+					$(this).attr('data-state', 'animate');
+				} else{
+					$(this).attr('src', still);
+					$(this).attr('data-state', 'still');
+				}
+		});
+	});
+	});
 });
