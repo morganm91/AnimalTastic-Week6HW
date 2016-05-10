@@ -3,7 +3,7 @@
 $(document).ready(function () {
 
 //inital buttons
-	 var animals = [ "puppy", "kitten", "bird", "goat", "llama", "sloth", "panda", "pig", "hedgehog", "shark" ];
+	 var animals = [ 'puppy', 'kitten', 'bird'];
 
 //generic function for displaying animal buttons
  	function renderButtons(){
@@ -15,15 +15,16 @@ $(document).ready(function () {
 		for (var i = 0; i < animals.length; i++){
 			// Then dynamicaly generates buttons for each animal in the array
 			// Note the jQUery syntax here... 
-		    var a = $('<button>') // This code $('<button>') is all jQuery needs to create the beginning and end tag. (<button></button>)
+		    var a = $('<button>'); // This code $('<button>') is all jQuery needs to create the beginning and end tag. (<button></button>)
 		    a.addClass('animal'); // Added a class 
-		    a.addClass('btn btn-primary btn-s');
+		    a.addClass('btn btn-primary btn-s'); //added a button class
 		    a.attr('data-name', animals[i]); // Added a data-attribute
-		    a.attr('data-state'), $(this).attr('datat-state', 'animate');
+		    a.attr('src', $(this).data('animate'));//make gifs animate
+		    a.attr('data-state'), $(this).attr('data-state', 'animate');//data state is animate
 		    a.text(animals[i]); // Provided the initial button text
 		    $('#animalButtons').append(a); // Added the button to the HTML
-		};
-	};
+		}
+	}
 
 	// This function handles events where one button is clicked
 	$('#addAnimal').on('click', function(){
@@ -36,17 +37,16 @@ $(document).ready(function () {
 		renderButtons();
 		// We have this line so that users can hit "enter" instead of clicking on ht button and it won't move to the next page
 		return false;
-	})
+	});
 
 	renderButtons();
 
 //Now we have to have the gifs appear when the button is clicked on
-	
 //when button is clicked on it will run this function
-	$(document).on('click', function () {
-		var a = $(this).data('name');
+	$(document).on('click','.animal', function () {
+		var animal = $(this).data('name');
 //gif will show 10 images		
-		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + a + "&api_key=dc6zaTOxFJmzC&limit=10";
+		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 //get the data from ajax
 		$.ajax({
@@ -55,42 +55,48 @@ $(document).ready(function () {
 		})
 //when it is finished getting the query this will respond
 		.done(function(response) {
+			console.log(response)
 			var results= response.data;
 
+//empty out the div
+		$('#animalGifs').empty();
 //for the variable it will run throug the length to get to 10
 		for (var i=0; i< results.length; i++) {
 
 		//placing the objects in the div
 		//creating a div and making it appear in the animalDiv
-			var animalDiv = $('<div>')
+			var animalDiv = $('<div class=AGDisplay>');
 
-		//paragraph tag to appear in variable named p to show the rating
-			var p = $('<p>').text("Rating: " + rating);
+		//paragraph tag to appear in variable named p to show the rating from ajax
+			var p = $('<p>').text("Rating: " + results[i].rating);
 		
-		//grabbing the rating from the ajax	
-			var rating = results[i].rating;
-
-		//created an image and ahving it in the animalImage variable and makig it set to a fixed height
+		
+		//created an image and ahving it in the animalImage variable and makig it set to a fixed height and added data states
 			var animalImage = $('<img>'); 
 			animalImage.attr('src', results[i].images.fixed_height_still.url);
 			animalImage.attr('data-still', results[i].images.fixed_height_still.url);
 			animalImage.attr('data-animate', results[i].images.fixed_height.url);
-			animalImage.attr('data-state', 'still'); 
-				animalImage.addClass('animalGif');
+			animalImage.attr('data-sate', 'still');
+			animalImage.addClass('Gifanimal');
+
+			
 
 		//appended the p variable and animal image to the animalDiv	
-			animalDiv.append(p)
-			animalDiv.append(animalImage)
+			animalDiv.append(p);
+			animalDiv.append(animalImage);
+			animalDiv.prepend(p);
+			animalDiv.prepend(animalImage)
 
 		//append animalDiv to where the gifs will appear	
-			$('#animals').prepend(animalDiv);
+			$('#animalGifs').prepend(animalDiv);
 
 		}
 	
+	
 
 
-//this section will make the image start and stop when clicked on
-		$('#animalButtons').on('click','.animalGif', function (){
+// //this section will make the image start and stop when clicked on
+		$('#animalGifs').on('click','.Gifanimal', function (){
 
 		//make a variable named state and then refrence the buttons data stat into it
 			var state = $(this).attr('data-state');
