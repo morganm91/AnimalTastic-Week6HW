@@ -3,7 +3,7 @@
 $(document).ready(function () {
 
 //inital buttons
-	 var animals = [ 'puppy', 'kitten', 'bird'];
+	 var animals = [ 'puppy', 'kitten', 'bird', 'shark', 'sugar glider', 'hippo'];
 
 //generic function for displaying animal buttons
  	function renderButtons(){

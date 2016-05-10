@@ -29,10 +29,8 @@
 #animalGifs{
 	float:left;
 	margin:10px;
-	position:relative;
-	display:inline-grid;
-	overflow:wrap;
-}
+	display: grid | inline-grid;
+	}
 
 #animal-form{
 	margin:10px;
