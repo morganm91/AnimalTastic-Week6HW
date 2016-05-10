@@ -1,0 +1,40 @@
+*{
+	background-color:#e0ffff;
+	font-family: 'Indie FLower', cursive;
+	font-weight: bold;
+	color: #ff69b4;
+
+
+}
+
+.animal{
+	margin: 10px;
+	color:#ff69b4;
+	background-color:#ffe4e1;
+
+}
+
+#animal-input{
+	color:#ffe4e1;
+	background-color: #ff69b4;
+}
+
+#addAnimal{
+	color:#ffe4e1;
+	background-color: #ff69b4;
+
+}
+
+
+#animalGifs{
+	float:left;
+	margin:10px;
+	position:relative;
+	display:inline-grid;
+	overflow:wrap;
+}
+
+#animal-form{
+	margin:10px;
+	float:right;
+}
